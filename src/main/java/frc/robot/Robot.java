@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
    * 
    * The default loop rate is 20 loops per second.
    * 
-   * Note: For Safety reasons, you should not put any code that moves the robot in this method.(it wont work reguardless)
+   * Note: For Safety reasons, you should not put any code that moves the robot in this method.(it wont work regardless)
    */
   @Override
   public void robotPeriodic() {
