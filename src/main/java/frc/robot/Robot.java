@@ -13,13 +13,24 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriverConstants;
 import frc.robot.subsystems.Drivebase;
 
+/**
+ * This is the main robot class.
+ */
 public class Robot extends TimedRobot {
 
+  //This is where you should instantiate all of your subsystems.
   private final Drivebase drivebase = new Drivebase();
 
+  //Example autonomous comamnd
   private Command autonomousCommand = Commands.none();
+
+  //This is where you should instantiate all of your driver controllers.
   private CommandXboxController driverController = new CommandXboxController(0);
 
+  /**
+   * This method is run when the robot is first started up and should be 
+   * used for any initialization code, such as default commands for subsystems.
+   */
   @Override
   public void robotInit() {
     drivebase.setDefaultCommand(
@@ -30,12 +41,30 @@ public class Robot extends TimedRobot {
     );
   }
 
+  /**
+   * This method is called every robot loop, no matter the mode the robot is in.
+   * This is where you should put code that you want to run constantly.
+   * 
+   * The default loop rate is 20 loops per second.
+   * 
+   * Note: For Safety reasons, you should not put any code that moves the robot in this method.(it wont work reguardless)
+   */
   @Override
   public void robotPeriodic() {
+    //We have to run the command scheduler in order for all of the commands to work.
     CommandScheduler.getInstance().run();
+
+    //Log the drivebase continuously.
     drivebase.log();
   }
 
+  /**
+   * This method is called once when the robot enters the autonomous mode.
+   * 
+   * This is where you should be scheduling your autonomous command(s).
+   * 
+   * Note: Make sure to cancel your autonomous command(s) when the robot exits autonomous mode.
+   */
   @Override
   public void autonomousInit() {
 
@@ -45,6 +74,11 @@ public class Robot extends TimedRobot {
 
   }
 
+  /**
+   * This method is called once when the robot exits the autonomous mode.
+   * 
+   * This is where you should be canceling your autonomous command(s).
+   */
   @Override
   public void autonomousExit() {
     if (autonomousCommand.isScheduled() == true) {
