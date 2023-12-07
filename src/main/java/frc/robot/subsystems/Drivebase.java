@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -11,24 +12,24 @@ import frc.robot.Constants.CAN;
 
 public class Drivebase extends SubsystemBase {
     
-    private final VictorSPX frontLeft = new VictorSPX(CAN.frontLeft);
-    private final VictorSPX frontRight = new VictorSPX(CAN.frontRight);
-    private final VictorSPX backLeft = new VictorSPX(CAN.backLeft);
-    private final VictorSPX backRight = new VictorSPX(CAN.backRight);
+    private final VictorSPX leftLeader = new VictorSPX(CAN.frontLeft);
+    private final VictorSPX rightLeader = new VictorSPX(CAN.frontRight);
+    private final VictorSPX leftFollower = new VictorSPX(CAN.backLeft);
+    private final VictorSPX rightFollower = new VictorSPX(CAN.backRight);
 
     public Drivebase() {
 
-        backLeft.follow(frontLeft);
-        backRight.follow(frontRight);
+        leftFollower.follow(leftLeader);
+        rightFollower.follow(rightLeader);
 
-        frontRight.setInverted(true);
-        backRight.setInverted(true);
+        rightLeader.setInverted(InvertType.InvertMotorOutput);
+        rightFollower.setInverted(InvertType.FollowMaster);
 
     }
 
     public void setWheelOutputs(WheelSpeeds outputs) {
-        frontLeft.set(ControlMode.PercentOutput, outputs.left);
-        frontRight.set(ControlMode.PercentOutput, outputs.right);
+        leftLeader.set(ControlMode.PercentOutput, outputs.left);
+        rightLeader.set(ControlMode.PercentOutput, outputs.right);
     }
 
     public void arcadeDrive(double xSpeed, double zRotation) {
@@ -37,8 +38,8 @@ public class Drivebase extends SubsystemBase {
     }
 
     public void log(){
-        SmartDashboard.putNumber("Drivebase/Left Output", frontLeft.getMotorOutputPercent());
-        SmartDashboard.putNumber("Drivebase/Right Output", frontRight.getMotorOutputPercent());
+        SmartDashboard.putNumber("Drivebase/Left Output", leftLeader.getMotorOutputPercent());
+        SmartDashboard.putNumber("Drivebase/Right Output", rightLeader.getMotorOutputPercent());
     }
 
 }
